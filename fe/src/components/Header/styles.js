@@ -5,7 +5,11 @@ export const Container = styled.header`
   display:flex;
   align-items:center;
   flex-direction: column;
+  margin-bottom: 48px;
 
+  img {
+    padding:4px;
+  }
 `;
 
 export const InputSearchContainer = styled.div`
@@ -19,7 +23,7 @@ export const InputSearchContainer = styled.div`
     background:'#fff';
     box-shadow: 0px 4px 10px rgba(0, 0,0, 0.04);
     outline:0;
-    padding:8px;
+    padding:16px;
 
     &::placeholder{
       color:#BCBCBC;
