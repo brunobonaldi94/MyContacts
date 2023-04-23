@@ -8,7 +8,7 @@ export const Header = styled.header`
   display:flex;
   align-items:center;
   width:100%;
-
+  margin-top: 24px;
   justify-content: space-between;
   strong {
     color: #222;
@@ -106,6 +106,7 @@ export const Card = styled.div`
 
 export const InputSearchContainer = styled.div`
   width: 100%;
+  margin-bottom: 24px;
   input {
     width: 100%;
     border-radius:25px;
