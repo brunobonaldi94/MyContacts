@@ -1,0 +1,3 @@
+
+//gerador de cores
+https://smart-swatch.netlify.app/#ffa800
