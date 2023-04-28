@@ -25,7 +25,7 @@ class ContactsRepository {
        c.*
       ,ca.name AS category_name
     FROM contacts c
-    INNER JOIN categories ca
+    LEFT JOIN categories ca
         ON ca.id = c.category_id
     ORDER BY c.name ${direction}
    `);

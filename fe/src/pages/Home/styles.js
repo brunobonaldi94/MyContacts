@@ -29,10 +29,9 @@ export const Header = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.header`
   margin-top: 24px;
-  header {
-     margin-bottom: 8px;
+  margin-bottom: 8px;
      .sort-button {
         display:flex;
         border:none;
@@ -47,12 +46,12 @@ export const ListContainer = styled.div`
 
         img {
           width: 10px;
-          ${({ $orderByAsc }) => !$orderByAsc && css`
+          transition: transform 0.2s ease-in;
+          ${({ $orderByAsc }) => $orderByAsc && css`
               transform: rotate(180deg);
           `}
         }
     }
-  }
 `;
 
 export const Card = styled.div`

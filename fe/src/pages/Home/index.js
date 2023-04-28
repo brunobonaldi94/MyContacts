@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Container,
   Header,
-  ListContainer,
+  ListHeader,
   Card,
   InputSearchContainer,
 } from './styles';
@@ -14,25 +14,87 @@ import trash from '../../assets/images/icons/trash.svg';
 
 function Home() {
   const [orderByAsc, setOrderByAsc] = useState(true);
-  const changeOrderBy = () => {
+  const [contacts, setContacts] = useState([]);
+
+  const getContacts = async () => {
+    try {
+      const orderBy = orderByAsc ? 'asc' : 'desc';
+      const contactsPromise = await fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`);
+      if (!contactsPromise.ok) {
+        return;
+      }
+      const contactsData = await contactsPromise.json();
+      setContacts(contactsData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getContacts();
+  // eslint-disable-next-line no-sparse-arrays
+  }, [orderByAsc]);
+
+  const handleToggleOrderBy = () => {
     setOrderByAsc((prevOrderByAsc) => !prevOrderByAsc);
   };
+
+  const listOfContacts = contacts.map((contact) => (
+    <Card
+      key={contact.id}
+    >
+      <div className="info">
+        <div className="contact-name">
+          <strong>{contact.name}</strong>
+          {contact.category_name && (
+            <small>{contact.category_name}</small>
+          )}
+        </div>
+        <span>{contact.email}</span>
+        <span>{contact.phone}</span>
+      </div>
+      <div className="actions">
+        <Link to={`/edit/${contact.id}`}>
+          <img src={edit} alt="Edit" />
+        </Link>
+        <button type="button">
+          <img src={trash} alt="Trash" />
+        </button>
+      </div>
+    </Card>
+  ));
+
+  const createContactsCount = () => {
+    if (contacts.length === 0) {
+      return (
+        <p>Nenhum contato encontrado</p>
+      );
+    }
+    return (
+      <p>
+        {contacts.length}
+        {' '}
+        {contacts.length === 1 ? 'Contato' : 'Contatos'}
+      </p>
+    );
+  };
+
   return (
     <Container>
       <InputSearchContainer>
         <input type="text" placeholder="Pesquise pelo nome" />
       </InputSearchContainer>
       <Header>
-        <strong>3 Contatos</strong>
+        <strong>{createContactsCount()}</strong>
         <Link to="/new">Novo Contato</Link>
       </Header>
-      <ListContainer $orderByAsc={orderByAsc}>
+      <ListHeader $orderByAsc={orderByAsc}>
         <header>
           <button
             type="button"
             className="sort-button"
             onClick={
-              () => changeOrderBy()
+              () => handleToggleOrderBy()
             }
           >
             <span>
@@ -41,61 +103,8 @@ function Home() {
             <img src={arrow} alt="Arrow" />
           </button>
         </header>
-      </ListContainer>
-      <Card>
-        <div className="info">
-          <div className="contact-name">
-            <strong>Bruno Bonaldi</strong>
-            <small>Instagram</small>
-          </div>
-          <span>brunobonaldidkjioadfa@gmail.com</span>
-          <span>+55 (11) 9 9999-9999</span>
-        </div>
-        <div className="actions">
-          <Link to="/edit/123">
-            <img src={edit} alt="Edit" />
-          </Link>
-          <button type="button">
-            <img src={trash} alt="Trash" />
-          </button>
-        </div>
-      </Card>
-      <Card>
-        <div className="info">
-          <div className="contact-name">
-            <strong>Bruno Bonaldi</strong>
-            <small>Instagram</small>
-          </div>
-          <span>brunobonaldidkjioadfa@gmail.com</span>
-          <span>+55 (11) 9 9999-9999</span>
-        </div>
-        <div className="actions">
-          <a href="/">
-            <img src={edit} alt="Edit" />
-          </a>
-          <button type="button">
-            <img src={trash} alt="Trash" />
-          </button>
-        </div>
-      </Card>
-      <Card>
-        <div className="info">
-          <div className="contact-name">
-            <strong>Bruno Bonaldi</strong>
-            <small>Instagram</small>
-          </div>
-          <span>brunobonaldidkjioadfa@gmail.com</span>
-          <span>+55 (11) 9 9999-9999</span>
-        </div>
-        <div className="actions">
-          <a href="/">
-            <img src={edit} alt="Edit" />
-          </a>
-          <button type="button">
-            <img src={trash} alt="Trash" />
-          </button>
-        </div>
-      </Card>
+      </ListHeader>
+      {listOfContacts}
     </Container>
   );
 }
