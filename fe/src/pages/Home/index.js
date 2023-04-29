@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from '../../components/Loader';
+import delay from '../../utils/delay';
 import {
   Container,
   Header,
@@ -15,18 +17,25 @@ import trash from '../../assets/images/icons/trash.svg';
 function Home() {
   const [orderByAsc, setOrderByAsc] = useState(true);
   const [contacts, setContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const filteredContacts = useMemo(() => contacts.filter((contact) => (
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )), [contacts, searchTerm]);
 
   const getContacts = async () => {
     try {
+      setIsLoading(true);
       const orderBy = orderByAsc ? 'asc' : 'desc';
       const contactsPromise = await fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`);
-      if (!contactsPromise.ok) {
-        return;
-      }
+      await delay(500);
       const contactsData = await contactsPromise.json();
       setContacts(contactsData);
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,7 +48,11 @@ function Home() {
     setOrderByAsc((prevOrderByAsc) => !prevOrderByAsc);
   };
 
-  const listOfContacts = contacts.map((contact) => (
+  const handlerSearchTerm = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const listOfContacts = filteredContacts.map((contact) => (
     <Card
       key={contact.id}
     >
@@ -65,29 +78,36 @@ function Home() {
   ));
 
   const createContactsCount = () => {
-    if (contacts.length === 0) {
+    if (filteredContacts.length === 0) {
       return (
         <p>Nenhum contato encontrado</p>
       );
     }
     return (
       <p>
-        {contacts.length}
+        {filteredContacts.length}
         {' '}
-        {contacts.length === 1 ? 'Contato' : 'Contatos'}
+        {filteredContacts.length === 1 ? 'Contato' : 'Contatos'}
       </p>
     );
   };
 
   return (
     <Container>
+      <Loader isLoading={isLoading} />
       <InputSearchContainer>
-        <input type="text" placeholder="Pesquise pelo nome" />
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => handlerSearchTerm(e)}
+          placeholder="Pesquise pelo nome"
+        />
       </InputSearchContainer>
-      <Header>
+      <Header noContact={filteredContacts.length === 0}>
         <strong>{createContactsCount()}</strong>
         <Link to="/new">Novo Contato</Link>
       </Header>
+      {filteredContacts.length > 0 && (
       <ListHeader $orderByAsc={orderByAsc}>
         <header>
           <button
@@ -104,6 +124,7 @@ function Home() {
           </button>
         </header>
       </ListHeader>
+      )}
       {listOfContacts}
     </Container>
   );

@@ -12,7 +12,7 @@ export const Header = styled.header`
   justify-content: space-between;
   strong {
     color: #222;
-    font-size: 24px;
+    font-size: ${({ noContact }) => (noContact ? '18' : '24')}px;
   }
   a {
     color: ${({ theme }) => theme.colors.primary.main};
