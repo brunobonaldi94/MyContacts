@@ -36,7 +36,7 @@ class ContactController {
     const contact = await ContactsRepository.create({
       name, email, phone, category_id,
     });
-    response.status(200).json(contact);
+    response.status(201).json(contact);
   }
 
   async update(request, response) {

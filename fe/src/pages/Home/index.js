@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../../components/Loader';
-import delay from '../../utils/delay';
 import {
   Container,
   Header,
@@ -13,6 +12,7 @@ import {
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import ContactsService from '../../services/ContactsService';
 
 function Home() {
   const [orderByAsc, setOrderByAsc] = useState(true);
@@ -27,10 +27,7 @@ function Home() {
   const getContacts = async () => {
     try {
       setIsLoading(true);
-      const orderBy = orderByAsc ? 'asc' : 'desc';
-      const contactsPromise = await fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`);
-      await delay(500);
-      const contactsData = await contactsPromise.json();
+      const contactsData = await ContactsService.listContacts(orderByAsc);
       setContacts(contactsData);
     } catch (e) {
       console.log(e);
