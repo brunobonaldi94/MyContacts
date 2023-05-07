@@ -9,7 +9,9 @@ export const Header = styled.header`
   align-items:center;
   width:100%;
   margin-top: 24px;
-  justify-content: space-between;
+  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray['100']};
+  padding-bottom: 16px;
   strong {
     color: #222;
     font-size: ${({ noContact }) => (noContact ? '18' : '24')}px;
@@ -120,4 +122,20 @@ export const InputSearchContainer = styled.div`
       color:#BCBCBC;
     }
   }
+`;
+
+export const ErrorContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items:center;
+ .details {
+  margin-left: 24px;
+
+  strong {
+    font-size: 22px;
+    color: ${({ theme }) => theme.colors.danger.main};
+    display: block;
+    margin-bottom: 8px;
+  }
+}
 `;

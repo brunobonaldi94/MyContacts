@@ -1,7 +1,7 @@
 const { v4 } = require('uuid');
 const db = require('../database');
 
-let contacts = [
+const contacts = [
   {
     id: v4(),
     name: 'Bruno',
@@ -39,12 +39,11 @@ class ContactsRepository {
     return row;
   }
 
-  delete(id) {
-    return new Promise((resolve) => {
-      resolve(
-        contacts = contacts.filter((cont) => cont.id !== id),
-      );
-    });
+  async delete(id) {
+    const [row] = await db.query(`
+    DELETE FROM contacts WHERE id = $1
+   `, [id]);
+    return row;
   }
 
   async findByEmail(email) {

@@ -36,7 +36,7 @@ const round = keyframes`
 export const Overlay = styled.div`
   background: rgba(246, 245, 252, 0.7);
   backdrop-filter: blur(7px);
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   left: 0;

@@ -13,6 +13,10 @@ class ContactsService {
   async createContact(contact) {
     return this.httpClient.post('/contacts', contact);
   }
+
+  async deleteContact(id) {
+    return this.httpClient.delete(`/contacts/${id}`);
+  }
 }
 
 export default new ContactsService();
