@@ -9,7 +9,7 @@ export const Header = styled.header`
   align-items:center;
   width:100%;
   margin-top: 24px;
-  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
+  justify-content: ${({ justifyContent }) => justifyContent};
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray['100']};
   padding-bottom: 16px;
   strong {
@@ -138,4 +138,33 @@ export const ErrorContainer = styled.div`
     margin-bottom: 8px;
   }
 }
+`;
+
+export const EmptyListContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    color:${({ theme }) => theme.colors.gray[200]};
+    text-align: center;
+    margin-top: 8px;
+    strong {
+      color:${({ theme }) => theme.colors.primary.main};
+    }
+
+  }
+`;
+
+export const SearchNotFoundContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-start;
+
+  p {
+    color:${({ theme }) => theme.colors.gray[200]};
+    text-align: center;
+    margin-left: 24px;
+    word-break:break-word;
+  }
 `;

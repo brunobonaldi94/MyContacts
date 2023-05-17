@@ -9,8 +9,5 @@
     "start": "docker start pg && yarn --cwd server dev && yarn --cwd fe start"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint-plugin-react-hooks": "^4.6.0"
-  }
+  "license": "ISC"
 }

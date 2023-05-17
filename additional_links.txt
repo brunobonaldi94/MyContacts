@@ -1,3 +1,5 @@
 
 //gerador de cores
 https://smart-swatch.netlify.app/#ffa800
+
+https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactFiberHooks.js

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-nested-ternary */
 import React, {
   useState, useEffect, useMemo, useCallback,
 } from 'react';
@@ -10,12 +12,16 @@ import {
   Card,
   InputSearchContainer,
   ErrorContainer,
+  EmptyListContainer,
+  SearchNotFoundContainer,
 } from './styles';
 import Button from '../../components/Button';
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import sad from '../../assets/images/icons/sad.svg';
+import emptyBox from '../../assets/images/icons/empty-box.svg';
+import magnifierQuestion from '../../assets/images/icons/magnifier-question.svg';
 import ContactsService from '../../services/ContactsService';
 
 function Home() {
@@ -32,8 +38,8 @@ function Home() {
   const getContacts = useCallback(async () => {
     try {
       setIsLoading(true);
-      setHasError(false);
       const contactsData = await ContactsService.listContacts(orderByAsc);
+      setHasError(false);
       setContacts(contactsData);
     } catch (error) {
       setHasError(true);
@@ -44,7 +50,7 @@ function Home() {
 
   useEffect(() => {
     getContacts();
-  }, [orderByAsc, getContacts]);
+  }, [getContacts]);
 
   const handleToggleOrderBy = () => {
     setOrderByAsc((prevOrderByAsc) => !prevOrderByAsc);
@@ -101,6 +107,7 @@ function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
+      {contacts.length > 0 && (
       <InputSearchContainer>
         <input
           type="text"
@@ -109,8 +116,19 @@ function Home() {
           placeholder="Pesquise pelo nome"
         />
       </InputSearchContainer>
-      <Header hasError={hasError} noContact={filteredContacts.length === 0}>
-        {!hasError && <strong>{createContactsCount()}</strong>}
+      )}
+      <Header
+        justifyContent={
+          hasError ? 'flex-end'
+            : (
+              contacts.length > 0
+                ? 'space-between'
+                : 'center'
+            )
+}
+        noContact={filteredContacts.length === 0}
+      >
+        {(!hasError && contacts.length > 0) && <strong>{createContactsCount()}</strong>}
         <Link to="/new">Novo Contato</Link>
       </Header>
       {hasError && (
@@ -124,16 +142,34 @@ function Home() {
           </div>
         </ErrorContainer>
       )}
-      {filteredContacts.length > 0 && !hasError && (
+      {!hasError && (
       <>
+        {(contacts.length < 1 && !isLoading) && (
+          <EmptyListContainer>
+            <img src={emptyBox} alt="Empty Box" />
+            <p>
+              Você ainda não tem nenhum contato cadastrado!
+              Clique no botão <strong>”Novo contato”</strong> à cima para cadastrar o seu primeiro!
+            </p>
+          </EmptyListContainer>
+        )}
+
+        {(filteredContacts.length === 0 && contacts.length > 0) && (
+          <SearchNotFoundContainer>
+            <img src={magnifierQuestion} alt="Magnifier Question" />
+            <p>Nenhum resultado foi encontrado para <strong>”{searchTerm}”.</strong></p>
+          </SearchNotFoundContainer>
+        )}
+
+        {filteredContacts.length > 0 && (
         <ListHeader $orderByAsc={orderByAsc}>
           <header>
             <button
               type="button"
               className="sort-button"
               onClick={
-              () => handleToggleOrderBy()
-            }
+                () => handleToggleOrderBy()
+              }
             >
               <span>
                 Nome
@@ -142,6 +178,7 @@ function Home() {
             </button>
           </header>
         </ListHeader>
+        )}
         {listOfContacts}
       </>
       )}
