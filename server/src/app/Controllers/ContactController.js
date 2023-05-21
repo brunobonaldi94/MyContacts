@@ -1,4 +1,5 @@
 const ContactsRepository = require('../repositories/ContactsRepository');
+const isValidUUID = require('../utils/isValidUUID');
 
 class ContactController {
   async index(request, response) {
@@ -9,7 +10,9 @@ class ContactController {
 
   async show(request, response) {
     const { id } = request.params;
-
+    if (!isValidUUID(id)) {
+      return response.status(400).json({ error: 'Invalid user id' });
+    }
     const contact = await ContactsRepository.findById(id);
 
     if (!contact) {
@@ -22,19 +25,25 @@ class ContactController {
     const {
       name, email, phone, category_id,
     } = request.body;
-    if (!name || !email || !phone) {
+
+    if (!name) {
       return response.status(400).json({
         error: 'it must have name, email, phone',
       });
     }
-    const contactsExists = await ContactsRepository.findByEmail(email);
-    if (contactsExists) {
-      return response.status(400).json({
-        error: 'email already exists',
-      });
+    if (category_id && !isValidUUID(category_id)) {
+      return response.status(400).json({ error: 'Invalid category' });
+    }
+    if (email) {
+      const contactsExists = await ContactsRepository.findByEmail(email);
+      if (contactsExists) {
+        return response.status(400).json({
+          error: 'email already exists',
+        });
+      }
     }
     const contact = await ContactsRepository.create({
-      name, email, phone, category_id,
+      name, email: email || null, phone, category_id: category_id || null,
     });
     response.status(201).json(contact);
   }
@@ -44,7 +53,13 @@ class ContactController {
     const {
       name, email, phone, category_id,
     } = request.body;
-    if (!name || !email || !phone) {
+    if (!isValidUUID(id)) {
+      return response.status(400).json({ error: 'Invalid user id' });
+    }
+    if (category_id && !isValidUUID(category_id)) {
+      return response.status(400).json({ error: 'Invalid category' });
+    }
+    if (!name) {
       return response.status(400).json({
         error: 'it must have name, email, phone',
       });
@@ -56,10 +71,10 @@ class ContactController {
       });
     }
     await ContactsRepository.edit(id, {
-      name, email, phone, category_id,
+      name, email: email || null, phone, category_id: category_id || null,
     });
     response.status(200).json({
-      id, name, email, phone, category_id,
+      name, email: email || null, phone, category_id: category_id || null,
     });
   }
 

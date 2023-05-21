@@ -11,7 +11,21 @@ class ContactsService {
   }
 
   async createContact(contact) {
-    return this.httpClient.post('/contacts', contact);
+    return this.httpClient.post('/contacts', {
+      body: contact,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  async updateContact(contact) {
+    return this.httpClient.put('/contacts', {
+      body: contact,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 
   async deleteContact(id) {

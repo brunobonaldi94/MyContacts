@@ -6,43 +6,67 @@ class HttpClient {
     this.baseUrl = baseURL;
   }
 
-  async makeRequest(url, httpMethod, requestBody = null) {
+  async makeRequest(path, options) {
     let response = null;
-    let body = null;
+    let responseBody = null;
+    const { body: requestBody, method: httpMethod, headers: customHeaders } = options;
+    const headers = new Headers();
+    if (customHeaders) {
+      Object.entries(customHeaders).forEach(([name, value]) => {
+        headers.append(name, value);
+      });
+    }
     if (requestBody) {
-      response = await fetch(`${this.baseUrl}${url}`, {
+      response = await fetch(`${this.baseUrl}${path}`, {
         method: httpMethod,
         body: JSON.stringify(requestBody),
+        headers,
       });
     } else {
-      response = await fetch(`${this.baseUrl}${url}`, {
+      response = await fetch(`${this.baseUrl}${path}`, {
         method: httpMethod,
+        headers,
       });
     }
     const contentType = response.headers.get('Content-Type');
     if (contentType.includes('application/json')) {
-      body = await response.json();
+      responseBody = await response.json();
     }
     if (response.ok) {
-      return body;
+      return responseBody;
     }
     throw new APIError(
       response,
-      body,
+      responseBody,
     );
   }
 
-  async get(url) {
+  async get(path, options) {
     await delay(500);
-    return this.makeRequest(url, 'GET');
+    return this.makeRequest(path, {
+      method: 'GET',
+      headers: options?.headers,
+    });
   }
 
-  async post(url, body) {
-    return this.makeRequest(url, 'POST', body);
+  post(path, options) {
+    return this.makeRequest(path, {
+      method: 'POST',
+      body: options?.body,
+      headers: options?.headers,
+    });
   }
 
-  async delete(url, id) {
-    return this.makeRequest(url + id, 'DELETE');
+  put(path, body) {
+    return this.makeRequest(path, {
+      method: 'PUT', body,
+    });
+  }
+
+  delete(path, id) {
+    return this.makeRequest(path + id, {
+      method: 'DELETE',
+    });
   }
 }
 

@@ -20,7 +20,7 @@ const fieldNames = {
   category: 'category',
 };
 
-function ContactForm({ buttonLabel }) {
+function ContactForm({ buttonLabel, onSubmit }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -46,11 +46,14 @@ function ContactForm({ buttonLabel }) {
   }, [loadCategories]);
 
   const isFormValid = (name && errors.length === 0);
-  const handleSubmit = (event) => {
+  const formHandleSubmit = async (event) => {
     event.preventDefault();
 
     console.log({
       name, email, phone: phone.replace(/\D/g, ''), categoryId,
+    });
+    await onSubmit({
+      name, email, phone, categoryId,
     });
   };
 
@@ -83,7 +86,7 @@ function ContactForm({ buttonLabel }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit} noValidate>
+    <Form onSubmit={formHandleSubmit} noValidate>
       <FormGroup error={getErrorMessageByFieldName(fieldNames.name)}>
         <Input
           type="text"
@@ -142,4 +145,5 @@ export default ContactForm;
 
 ContactForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
