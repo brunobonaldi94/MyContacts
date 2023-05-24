@@ -7,7 +7,6 @@ export const Select = styled.select`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   height: 52px;
   border-radius: 8px;
-  border:none;
   outline: none;
   padding: 0 16px;
   font-size: 16px;
@@ -18,8 +17,9 @@ export const Select = styled.select`
   }
 
   &[disabled] {
-    background-color: ${({ theme }) => theme.colors.gray[100]}};
-    border-color: ${({ theme }) => theme.colors.gray[200]}};
+    background-color: ${({ theme }) => theme.colors.gray[100]};
+    border-color: ${({ theme }) => theme.colors.gray[200]};
+    opacity:1;
   }
 
 `;

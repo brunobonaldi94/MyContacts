@@ -17,6 +17,11 @@ const commom = {
       main: '#FC5050',
       dark: '#F63131',
     },
+    success: {
+      light: '#9be2af',
+      main: '#51CA73',
+      dark: '#1a6230',
+    },
   },
 };
 export default commom;

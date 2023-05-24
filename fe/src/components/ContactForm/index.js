@@ -26,7 +26,8 @@ function ContactForm({ buttonLabel, onSubmit }) {
   const [phone, setPhone] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [categoriesList, setCategoriesList] = useState([]);
-  const [isLoadingCategory, setIsLoadingCategory] = useState(true);
+  const [isLoadingCategory, setIsLoadingCategory] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     errors, setError, removeError, getErrorMessageByFieldName,
   } = userErrors();
@@ -48,13 +49,14 @@ function ContactForm({ buttonLabel, onSubmit }) {
   const isFormValid = (name && errors.length === 0);
   const formHandleSubmit = async (event) => {
     event.preventDefault();
-
     console.log({
       name, email, phone: phone.replace(/\D/g, ''), categoryId,
     });
+    setIsSubmitting(true);
     await onSubmit({
       name, email, phone, categoryId,
     });
+    setIsSubmitting(false);
   };
 
   const handleNameChange = (e) => {
@@ -94,6 +96,7 @@ function ContactForm({ buttonLabel, onSubmit }) {
           value={name}
           onChange={handleNameChange}
           error={getErrorMessageByFieldName(fieldNames.name)}
+          disabled={isSubmitting}
         />
       </FormGroup>
       <FormGroup error={getErrorMessageByFieldName(fieldNames.email)}>
@@ -103,6 +106,7 @@ function ContactForm({ buttonLabel, onSubmit }) {
           value={email}
           onChange={handleEmailChange}
           error={getErrorMessageByFieldName(fieldNames.email)}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -114,6 +118,8 @@ function ContactForm({ buttonLabel, onSubmit }) {
           onChange={handlePhoneChange}
           error={getErrorMessageByFieldName(fieldNames.phone)}
           maxLength={15}
+          disabled={isSubmitting}
+
         />
       </FormGroup>
       <FormGroup
@@ -124,7 +130,8 @@ function ContactForm({ buttonLabel, onSubmit }) {
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
           error={getErrorMessageByFieldName(fieldNames.category)}
-          disabled={isLoadingCategory}
+          disabled={isLoadingCategory || isSubmitting}
+
         >
           <option value="">Sem Categoria</option>
           {categoriesList.map((cat) => (
@@ -133,7 +140,7 @@ function ContactForm({ buttonLabel, onSubmit }) {
         </Select>
       </FormGroup>
       <ButtonContainer>
-        <Button type="submit" disabled={!isFormValid}>
+        <Button type="submit" disabled={!isFormValid} isLoading={isSubmitting}>
           {buttonLabel}
         </Button>
       </ButtonContainer>
