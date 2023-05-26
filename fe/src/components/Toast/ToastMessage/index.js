@@ -22,7 +22,7 @@ export default ToastMessage;
 
 ToastMessage.propTypes = {
   text: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['success', 'error', 'default']),
+  type: PropTypes.oneOf(['success', 'danger', 'default']),
 };
 
 ToastMessage.defaultProps = {
