@@ -3,28 +3,32 @@ import {
   Container,
 } from './styles';
 import ToastMessage from '../ToastMessage';
+import { toastEventManager } from '../../../utils/toast';
 
 function ToastContainer() {
   // eslint-disable-next-line no-unused-vars
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const handleAddToast = (e) => {
-      const { type, text } = e.detail;
+    const handleAddToast = ({ type, text }) => {
       setMessages((prev) => [...prev, { id: Math.random(), type, text }]);
     };
-    document.addEventListener('addtoast', handleAddToast);
+    toastEventManager.on('addtoast', handleAddToast);
     return () => {
-      document.removeEventListener('addtoast', handleAddToast);
+      toastEventManager.removeListener('addtoast', handleAddToast);
     };
   }, []);
+  function handleRemoveToast(messageId) {
+    setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
+  }
   return (
     <Container>
       {messages.map((msg) => (
         <ToastMessage
+          // eslint-disable-next-line react/jsx-no-bind
+          onRemoveMessage={handleRemoveToast}
           key={msg.id}
-          text={msg.text}
-          type={msg.type}
+          message={msg}
         />
       ))}
     </Container>
