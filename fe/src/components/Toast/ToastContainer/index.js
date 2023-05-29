@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Container,
 } from './styles';
@@ -18,9 +18,9 @@ function ToastContainer() {
       toastEventManager.removeListener('addtoast', handleAddToast);
     };
   }, []);
-  function handleRemoveToast(messageId) {
+  const handleRemoveToast = useCallback((messageId) => {
     setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
-  }
+  }, []);
   return (
     <Container>
       {messages.map((msg) => (

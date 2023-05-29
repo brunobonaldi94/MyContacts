@@ -57,6 +57,10 @@ function ContactForm({ buttonLabel, onSubmit }) {
       name, email, phone, categoryId,
     });
     setIsSubmitting(false);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCategoryId('');
   };
 
   const handleNameChange = (e) => {
