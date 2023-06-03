@@ -14,6 +14,7 @@ import isEmailValid from '../../utils/isEmailValid';
 import userErrors from '../../hooks/useErrors';
 import formatPhone from '../../utils/formatPhone';
 import categoriesService from '../../services/CategoriesService';
+import useSafeAsyncState from '../../hooks/useSafeAsyncState';
 
 const fieldNames = {
   name: 'name',
@@ -27,8 +28,8 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [isLoadingCategory, setIsLoadingCategory] = useState(false);
+  const [categoriesList, setCategoriesList] = useSafeAsyncState([]);
+  const [isLoadingCategory, setIsLoadingCategory] = useSafeAsyncState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     errors, setError, removeError, getErrorMessageByFieldName,
@@ -42,7 +43,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
     } catch {} finally {
       setIsLoadingCategory(false);
     }
-  }, []);
+  }, [setCategoriesList, setIsLoadingCategory]);
 
   useEffect(() => {
     loadCategories();
