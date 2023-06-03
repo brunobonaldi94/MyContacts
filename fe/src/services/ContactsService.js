@@ -19,8 +19,12 @@ class ContactsService {
     });
   }
 
-  async updateContact(contact) {
-    return this.httpClient.put('/contacts', {
+  async getContactById(id) {
+    return this.httpClient.get(`/contacts/${id}`);
+  }
+
+  async updateContact(id, contact) {
+    return this.httpClient.put(`/contacts/${id}`, {
       body: contact,
       headers: {
         'Content-Type': 'application/json',

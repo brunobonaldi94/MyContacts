@@ -29,7 +29,7 @@ class HttpClient {
       });
     }
     const contentType = response.headers.get('Content-Type');
-    if (contentType.includes('application/json')) {
+    if (contentType?.includes('application/json')) {
       responseBody = await response.json();
     }
     if (response.ok) {
@@ -57,15 +57,18 @@ class HttpClient {
     });
   }
 
-  put(path, body) {
+  put(path, options) {
     return this.makeRequest(path, {
-      method: 'PUT', body,
+      method: 'PUT',
+      body: options?.body,
+      headers: options?.headers,
     });
   }
 
-  delete(path, id) {
-    return this.makeRequest(path + id, {
+  delete(path, options) {
+    return this.makeRequest(path, {
       method: 'DELETE',
+      headers: options?.headers,
     });
   }
 }
