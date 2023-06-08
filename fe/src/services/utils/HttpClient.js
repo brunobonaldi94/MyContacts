@@ -1,5 +1,4 @@
 import APIError from '../../errors/APIError';
-import delay from '../../utils/delay';
 
 class HttpClient {
   constructor(baseURL) {
@@ -42,7 +41,6 @@ class HttpClient {
   }
 
   async get(path, options) {
-    await delay(500);
     return this.makeRequest(path, {
       method: 'GET',
       headers: options?.headers,
