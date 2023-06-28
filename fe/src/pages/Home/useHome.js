@@ -28,6 +28,7 @@ export default function useHome() {
       setContacts(contactsData);
     } catch (error) {
       setHasError(true);
+      setContacts([]);
     } finally {
       setIsLoading(false);
     }
