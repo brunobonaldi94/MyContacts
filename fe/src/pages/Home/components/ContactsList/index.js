@@ -42,7 +42,7 @@ function ContactsList({
             <div className="contact-name">
               <strong>{contact.name}</strong>
               {Object.keys(contact.category).length > 0 && (
-                <small>{contact.category.name}</small>
+                <small>{contact.category.categoryName}</small>
               )}
             </div>
             <span>{contact.email}</span>
@@ -70,7 +70,7 @@ ContactsList.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     category: PropTypes.shape({
-      name: PropTypes.string,
+      categoryName: PropTypes.string,
     }).isRequired,
     email: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,

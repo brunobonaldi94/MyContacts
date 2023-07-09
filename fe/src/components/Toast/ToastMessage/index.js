@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-
 import { useEffect } from 'react';
 import {
   Container,
@@ -8,11 +7,15 @@ import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
 import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
 
 function ToastMessage({
-  onRemoveMessage, message,
+  onRemoveMessage,
+  message,
+  isLeaving,
+  animatedRef,
 }) {
   const {
     id, text, type, duration,
   } = message;
+
   const handleRemoveMessage = () => {
     onRemoveMessage(id);
   };
@@ -25,12 +28,15 @@ function ToastMessage({
       clearTimeout(timer);
     };
   }, [onRemoveMessage, duration, id]);
+
   return (
     <Container
       tabIndex={0}
       type={type}
       onClick={handleRemoveMessage}
       role="button"
+      isLeaving={isLeaving}
+      ref={animatedRef}
     >
       {type === 'danger' && <img src={xCircleIcon} alt="X" />}
       {type === 'success' && <img src={checkCircleIcon} alt="Check" />}
@@ -49,4 +55,6 @@ ToastMessage.propTypes = {
     id: PropTypes.number.isRequired,
     duration: PropTypes.number,
   }).isRequired,
+  isLeaving: PropTypes.bool.isRequired,
+  animatedRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
 };

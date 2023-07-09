@@ -11,6 +11,6 @@ export default function useSafeAsyncState(initialState) {
     if (isMounted()) {
       setState(data);
     }
-  }, []);
+  }, [isMounted]);
   return [state, setSafeAsyncState];
 }

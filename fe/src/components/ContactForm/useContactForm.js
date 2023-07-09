@@ -59,7 +59,7 @@ export default function useContactForm(onSubmit, ref) {
       setName(contact.name ?? '');
       setEmail(contact.email ?? '');
       setPhone(formatPhone(contact.phone ?? ''));
-      setCategoryId(contact.category.id ?? '');
+      setCategoryId(contact.category.categoryId ?? '');
     },
     resetFields: () => {
       setName('');
