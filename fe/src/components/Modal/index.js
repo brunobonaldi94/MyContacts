@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Overlay,
@@ -13,16 +13,31 @@ function Modal({
   visible,
 }) {
   const ID = 'modal-root';
-
-  if (!visible) {
+  const [shouldRender, setShouldRender] = useState(visible);
+  const overLayRef = useRef(null);
+  useEffect(() => {
+    if (visible) {
+      setShouldRender(true);
+    }
+    let timeoutId;
+    if (!visible) {
+      timeoutId = setTimeout(() => {
+        setShouldRender(false);
+      }, 300);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [visible]);
+  if (!shouldRender) {
     return null;
   }
   return (
     <ReactPortal
       containerId={ID}
     >
-      <Overlay>
-        <Container danger={danger}>
+      <Overlay isLeaving={!visible} ref={overLayRef}>
+        <Container danger={danger} isLeaving={!visible}>
           <h1>{title}</h1>
           <div className="modal-body">
             {children}
