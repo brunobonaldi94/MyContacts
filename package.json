@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "yarn --cwd server install && yarn --cwd fe install",
-    "start": "sudo docker start pg && yarn --cwd server dev && yarn --cwd fe start"
+    "start": "sudo docker start pg && (yarn --cwd server dev &) && (yarn --cwd fe start &)"
   },
   "author": "",
   "license": "ISC"

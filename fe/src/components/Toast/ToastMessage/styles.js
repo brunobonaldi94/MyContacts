@@ -1,4 +1,15 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const messageIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity:1;
+    transform: translateY(0);
+  }
+`;
 
 const containerVariant = {
   default: css`
@@ -21,6 +32,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: ${messageIn} 0.3s ease-in-out;
   cursor: pointer;
   img {
     margin-right: 8px;
