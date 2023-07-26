@@ -43,9 +43,9 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: ${messageIn} 0.3s ease-in-out;
+  animation: ${messageIn} 0.3s ease-in-out forwards;
   ${({ isLeaving }) => isLeaving && css`
-    animation: ${messageOut} 0.2s ease-in-out;
+    animation: ${messageOut} 0.2s ease-in-out forwards;
   `}
   cursor: pointer;
   img {

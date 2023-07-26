@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import arrow from '../../../../assets/images/icons/arrow.svg';
@@ -63,7 +63,7 @@ function ContactsList({
   );
 }
 
-export default ContactsList;
+export default memo(ContactsList);
 
 ContactsList.propTypes = {
   filteredContacts: PropTypes.arrayOf(PropTypes.shape({

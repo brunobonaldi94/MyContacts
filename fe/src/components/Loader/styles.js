@@ -31,6 +31,6 @@ export const Overlay = styled.div`
   justify-content: center;
   animation: ${fadeIn} 0.3s ease-in-out;
 
-  ${({ isLeaving }) => isLeaving && css`animation: ${fadeOut} 0.3s ease-in-out;`}
+  ${({ isLeaving }) => isLeaving && css`animation: ${fadeOut} 0.3s ease-in-out forwards;`}
 
 `;

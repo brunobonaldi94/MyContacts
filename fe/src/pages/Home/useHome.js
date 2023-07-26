@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-nested-ternary */
 import {
-  useState, useEffect, useMemo, useCallback,
+  useState, useEffect, useCallback,
+  useMemo,
+  useDeferredValue,
 } from 'react';
 import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
@@ -10,15 +12,17 @@ export default function useHome() {
   const [orderByAsc, setOrderByAsc] = useState(true);
   const [contacts, setContacts] = useState([]);
   const [hasError, setHasError] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [contactBeingDelete, setContactBeingDelete] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const deferredSearchTerm = useDeferredValue(searchTerm, { timeoutMs: 500 });
+
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )), [contacts, searchTerm]);
+    contact.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+  )), [contacts, deferredSearchTerm]);
 
   const getContacts = useCallback(async () => {
     try {
@@ -38,18 +42,19 @@ export default function useHome() {
     getContacts();
   }, [getContacts]);
 
-  const handleToggleOrderBy = () => {
+  const handleToggleOrderBy = useCallback(() => {
     setOrderByAsc((prevOrderByAsc) => !prevOrderByAsc);
-  };
+  }, []);
 
   const handlerSearchTerm = (e) => {
-    setSearchTerm(e.target.value);
+    const { value } = e.target;
+    setSearchTerm(value);
   };
 
-  const handleDeleteContact = (contact) => {
+  const handleDeleteContact = useCallback((contact) => {
     setIsDeleteModalVisible(true);
     setContactBeingDelete(contact);
-  };
+  }, []);
 
   const handleCloseDeleteModal = () => {
     setIsDeleteModalVisible(false);
