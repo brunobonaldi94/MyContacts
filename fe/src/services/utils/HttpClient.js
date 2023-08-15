@@ -20,6 +20,7 @@ class HttpClient {
         method: httpMethod,
         body: JSON.stringify(requestBody),
         headers,
+        signal: options?.signal,
       });
     } else {
       response = await fetch(`${this.baseUrl}${path}`, {
@@ -44,6 +45,7 @@ class HttpClient {
     return this.makeRequest(path, {
       method: 'GET',
       headers: options?.headers,
+      signal: options?.signal,
     });
   }
 

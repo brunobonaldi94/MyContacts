@@ -27,10 +27,10 @@ export default function useContactForm(onSubmit, ref) {
     errors, setError, removeError, getErrorMessageByFieldName,
   } = useErrors();
 
-  const loadCategories = useCallback(async () => {
+  const loadCategories = useCallback(async (signal) => {
     try {
       setIsLoadingCategory(true);
-      const categories = await categoriesService.listCategories();
+      const categories = await categoriesService.listCategories(signal);
       setCategoriesList(categories);
     } catch {} finally {
       setIsLoadingCategory(false);
@@ -38,7 +38,11 @@ export default function useContactForm(onSubmit, ref) {
   }, [setCategoriesList, setIsLoadingCategory]);
 
   useEffect(() => {
-    loadCategories();
+    const controller = new AbortController();
+    loadCategories(controller.signal);
+    return () => {
+      controller.abort();
+    };
   }, [loadCategories]);
 
   const isFormValid = (name && errors.length === 0);

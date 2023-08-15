@@ -5,12 +5,12 @@ export const Container = styled.header`
   align-items:center;
   width:100%;
   margin-top: 24px;
-  justify-content: ${({ justifyContent }) => justifyContent};
+  justify-content: ${({ $justifyContent }) => $justifyContent};
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray['100']};
   padding-bottom: 16px;
   strong {
     color: #222;
-    font-size: ${({ noContact }) => (noContact ? '18' : '24')}px;
+    font-size: ${({ $noContact }) => ($noContact ? '18' : '24')}px;
   }
   a {
     color: ${({ theme }) => theme.colors.primary.main};

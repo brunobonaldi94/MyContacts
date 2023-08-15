@@ -17,8 +17,8 @@ function Header({ hasError, qtyOfContacts, qtyOfFilteredContacts }) {
 
   return (
     <Container
-      justifyContent={alignment}
-      noContact={qtyOfFilteredContacts === 0}
+      $justifyContent={alignment}
+      $noContact={qtyOfFilteredContacts === 0}
     >
       {(!hasError && qtyOfContacts > 0 && qtyOfFilteredContacts === 0) && (
       <strong>

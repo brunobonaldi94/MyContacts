@@ -29,15 +29,20 @@ export default function useEditContact() {
   };
 
   useEffect(() => {
-    async function getContact(contactId) {
+    const controller = new AbortController();
+    async function getContact(contactId, signal) {
       try {
-        const contactResponse = await contactsService.getContactById(contactId);
+        const contactResponse = await contactsService.getContactById(contactId, signal);
         safeAsyncAction(() => {
           contactFormRef.current.setFieldValues(contactResponse);
           setContactName(contactResponse.name);
           setIsLoading(false);
         });
-      } catch {
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          setIsLoading(false);
+          return;
+        }
         safeAsyncAction(() => {
           history.push('/');
           toast({
@@ -48,8 +53,11 @@ export default function useEditContact() {
       }
     }
     if (id) {
-      getContact(id);
+      getContact(id, controller.signal);
     }
+    return () => {
+      controller.abort();
+    };
   }, [id, history, safeAsyncAction]);
 
   return ({

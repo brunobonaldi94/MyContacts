@@ -6,9 +6,9 @@ class ContactsService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listContacts(orderByAsc = true) {
+  async listContacts(signal, orderByAsc = true) {
     const orderBy = orderByAsc ? 'ASC' : 'DESC';
-    const contacts = await this.httpClient.get(`/contacts?orderBy=${orderBy}`);
+    const contacts = await this.httpClient.get(`/contacts?orderBy=${orderBy}`, { signal });
 
     return contacts.map(ContactMapper.toDomain);
   }
@@ -23,8 +23,8 @@ class ContactsService {
     });
   }
 
-  async getContactById(id) {
-    const contact = await this.httpClient.get(`/contacts/${id}`);
+  async getContactById(id, signal) {
+    const contact = await this.httpClient.get(`/contacts/${id}`, { signal });
     return ContactMapper.toDomain(contact);
   }
 
