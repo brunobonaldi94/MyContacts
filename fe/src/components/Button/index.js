@@ -6,7 +6,12 @@ import {
 import Spinner from '../Spinner';
 
 function Button({
-  type, isLoading, disabled, children, ...props
+  type = 'button', isLoading = false,
+  disabled = false,
+  children,
+  danger = false,
+  onClick,
+  ...props
 }) {
   return (
 
@@ -15,6 +20,8 @@ function Button({
       {...props}
       type={type}
       disabled={disabled || isLoading}
+      danger={danger}
+      onClick={onClick}
     >
       {!isLoading && children}
       {isLoading && <Spinner size={16} />}
@@ -29,10 +36,6 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
-};
-
-Button.defaultProps = {
-  type: 'button',
-  isLoading: false,
-  disabled: false,
+  danger: PropTypes.bool,
+  onClick: PropTypes.func,
 };

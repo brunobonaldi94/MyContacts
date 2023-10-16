@@ -15,3 +15,5 @@ CREATE TABLE IF NOT EXISTS contacts (
 	category_id UUID,
 	FOREIGN KEY(category_id) REFERENCES categories(id)
 );
+
+INSERT INTO categories (name) VALUES ('Instagram'), ('Facebook'), ('Discord');

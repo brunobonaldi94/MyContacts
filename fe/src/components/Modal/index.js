@@ -10,7 +10,7 @@ import ReactPortal from '../ReactPortal';
 import useAnimatedUnmount from '../../hooks/useAnimatedUnmount';
 
 function Modal({
-  danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, isLoading,
+  danger = false, title, children, cancelLabel = 'Cancelar', confirmLabel, onCancel, onConfirm, isLoading = false,
   visible,
 }) {
   const ID = 'modal-root';
@@ -50,10 +50,4 @@ Modal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool,
-};
-
-Modal.defaultProps = {
-  danger: false,
-  cancelLabel: 'Cancelar',
-  isLoading: false,
 };

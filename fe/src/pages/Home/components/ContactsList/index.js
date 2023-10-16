@@ -78,12 +78,4 @@ ContactsList.propTypes = {
   orderByAsc: PropTypes.bool.isRequired,
   onToggleOrderBy: PropTypes.func.isRequired,
   onDeleteContact: PropTypes.func.isRequired,
-  contactBeingDelete: PropTypes.shape({
-    name: PropTypes.string,
-  }),
-
-};
-
-ContactsList.defaultProps = {
-  contactBeingDelete: null,
 };

@@ -1,10 +1,10 @@
-import { useEffect, memo } from 'react';
+import { memo, useEffect } from 'react';
+import useAnimatedList from '../../../hooks/useAnimatedList';
+import { toastEventManager } from '../../../utils/toast';
+import ToastMessage from '../ToastMessage';
 import {
   Container,
 } from './styles';
-import ToastMessage from '../ToastMessage';
-import { toastEventManager } from '../../../utils/toast';
-import useAnimatedList from '../../../hooks/useAnimatedList';
 
 function ToastContainer() {
   // eslint-disable-next-line no-unused-vars

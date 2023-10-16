@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
 import contactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
-import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
 import Presentation from './Presentation';
 
 function EditContact() {
@@ -10,9 +10,8 @@ function EditContact() {
   const contactFormRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [contactName, setContactName] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const safeAsyncAction = useSafeAsyncAction();
-
   const handleSubmit = async (contact) => {
     try {
       const contactData = await contactsService.updateContact(id, contact);
@@ -40,7 +39,7 @@ function EditContact() {
         });
       } catch {
         safeAsyncAction(() => {
-          history.push('/');
+          navigate('/');
           toast({
             type: 'danger',
             text: 'Contato não encontrado',
@@ -51,7 +50,7 @@ function EditContact() {
     if (id) {
       getContact(id);
     }
-  }, [id, history, safeAsyncAction]);
+  }, [id, navigate, safeAsyncAction]);
 
   return (
     <Presentation

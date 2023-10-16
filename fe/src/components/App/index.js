@@ -1,13 +1,13 @@
-import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import Router from '../../Router';
 import GlobalStyles from '../../assets/styles/global';
 import defaultTheme from '../../assets/theme/default';
+import Header from '../Header';
+import ToastContainer from '../Toast/ToastContainer';
 import {
   Container,
 } from './styles';
-import Header from '../Header';
-import Routes from '../../Routes';
-import ToastContainer from '../Toast/ToastContainer';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <ToastContainer />
         <Container>
           <Header />
-          <Routes />
+          <Router />
         </Container>
       </ThemeProvider>
     </BrowserRouter>

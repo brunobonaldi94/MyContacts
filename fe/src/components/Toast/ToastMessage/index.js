@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
+import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
 import {
   Container,
 } from './styles';
-import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
-import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
 
 function ToastMessage({
   onRemoveMessage,
@@ -35,7 +35,7 @@ function ToastMessage({
       type={type}
       onClick={handleRemoveMessage}
       role="button"
-      isLeaving={isLeaving}
+      $isLeaving={isLeaving}
       ref={animatedRef}
     >
       {type === 'danger' && <img src={xCircleIcon} alt="X" />}

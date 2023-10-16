@@ -2,17 +2,16 @@
 import Loader from '../../components/Loader';
 import {
   Container,
-
 } from './styles';
 
-import useHome from './useHome';
-import InputSearch from './components/InputSearch';
-import Header from './components/Header';
-import ErrorStatus from './components/ErrorStatus';
-import EmptyList from './components/EmptyList';
-import SearchNotFound from './components/SearchNotFound';
-import ContactsList from './components/ContactsList';
 import Modal from '../../components/Modal';
+import ContactsList from './components/ContactsList';
+import EmptyList from './components/EmptyList';
+import ErrorStatus from './components/ErrorStatus';
+import Header from './components/Header';
+import InputSearch from './components/InputSearch';
+import SearchNotFound from './components/SearchNotFound';
+import useHome from './useHome';
 
 function Home() {
   const {

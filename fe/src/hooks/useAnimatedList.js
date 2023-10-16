@@ -1,5 +1,9 @@
 import {
-  useState, useCallback, useRef, createRef, useEffect,
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 
 const useAnimatedList = (initialValues = []) => {

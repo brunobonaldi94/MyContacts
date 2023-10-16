@@ -1,11 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import useAnimatedUnmount from '../../hooks/useAnimatedUnmount';
+import ReactPortal from '../ReactPortal';
+import Spinner from '../Spinner';
 import {
   Overlay,
 } from './styles';
-import Spinner from '../Spinner';
-import ReactPortal from '../ReactPortal';
-import useAnimatedUnmount from '../../hooks/useAnimatedUnmount';
 
 function Loader({ isLoading }) {
   const { shoudlRender, animatedElementRef } = useAnimatedUnmount(isLoading);
@@ -18,7 +18,7 @@ function Loader({ isLoading }) {
     <ReactPortal
       containerId={ID}
     >
-      <Overlay isLeaving={isLoading} ref={animatedElementRef}>
+      <Overlay $isLeaving={isLoading} ref={animatedElementRef}>
         <Spinner size={90} />
       </Overlay>
     </ReactPortal>

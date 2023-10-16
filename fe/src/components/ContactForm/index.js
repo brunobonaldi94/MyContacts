@@ -104,14 +104,5 @@ export default ContactForm;
 ContactForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  contact: PropTypes.shape({
-    name: PropTypes.string,
-    email: PropTypes.string,
-    phone: PropTypes.string,
-    categoryId: PropTypes.string,
-  }),
-};
 
-ContactForm.defaultProps = {
-  contact: null,
 };
